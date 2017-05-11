@@ -10,17 +10,17 @@ const tab = "  "
 func renderContent(content *Content, config *Config, buf *bytes.Buffer, depth int, index int, parent *Content) {
 	if content.Type == "list_item" {
 		buf.WriteString(strings.Repeat(tab, depth-1))
-		buf.WriteString(config.GetListNodeBefore(index, content, parent.Type))
+		buf.WriteString(config.getListNodeBefore(index, content, parent.Type))
 	} else {
-		buf.WriteString(config.GetNodeBefore(index, content))
+		buf.WriteString(config.getNodeBefore(index, content))
 	}
 	if content.Text != "" {
 		for i, mark := range content.Marks {
-			buf.WriteString(config.GetMarkBefore(i, mark))
+			buf.WriteString(config.getMarkBefore(i, mark))
 		}
 		buf.WriteString(content.Text)
 		for i := len(content.Marks) - 1; i >= 0; i-- {
-			buf.WriteString(config.GetMarkAfter(i, content.Marks[i]))
+			buf.WriteString(config.getMarkAfter(i, content.Marks[i]))
 		}
 	} else if content.Content != nil {
 		for i, c := range content.Content {
@@ -38,12 +38,13 @@ func renderContent(content *Content, config *Config, buf *bytes.Buffer, depth in
 		}
 	}
 	if content.Type == "list_item" {
-		buf.WriteString(config.GetListNodeAfter(index, content, parent.Type))
+		buf.WriteString(config.getListNodeAfter(index, content, parent.Type))
 	} else {
-		buf.WriteString(config.GetNodeAfter(index, content))
+		buf.WriteString(config.getNodeAfter(index, content))
 	}
 }
 
+// Render takes the editorState and config and returns the content as a string
 func Render(editorState *EditorState, config *Config) string {
 	var buf bytes.Buffer
 	renderContent(editorState.Doc, config, &buf, 0, 0, nil)

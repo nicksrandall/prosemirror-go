@@ -2,6 +2,7 @@ package prosemirror
 
 import "strings"
 
+// NewMarkdownConfig creates a Config configured to render markdown
 func NewMarkdownConfig() *Config {
 	nodeRenderers := map[string]Option{
 		"paragraph":       SimpleOption{After: "\n"},
@@ -13,7 +14,7 @@ func NewMarkdownConfig() *Config {
 		"bullet_list":     SimpleOption{After: "\n"},
 		"list_item":       plainListItemOption{},
 		"code_block":      SimpleOption{Before: "```\n", After: "```\n"},
-		"variable":        VariableOption{},
+		"variable":        variableOption{},
 	}
 
 	markRenderers := map[string]Option{

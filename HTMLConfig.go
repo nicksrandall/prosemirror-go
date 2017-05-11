@@ -2,6 +2,7 @@ package prosemirror
 
 import "fmt"
 
+// NewHTMLConfig returns a Config configured for HTML
 func NewHTMLConfig() *Config {
 	nodeRenderers := map[string]Option{
 		"paragraph":       SimpleOption{Before: "<p>", After: "</p>"},
@@ -15,7 +16,7 @@ func NewHTMLConfig() *Config {
 		"ordered_list":    SimpleOption{Before: "<ol>", After: "</ol>"},
 		"bullet_list":     SimpleOption{Before: "<ul>", After: "</ul>"},
 		"list_item":       SimpleOption{Before: "<li>", After: "</li>"},
-		"variable":        VariableOption{},
+		"variable":        variableOption{},
 	}
 
 	markRenderers := map[string]Option{
@@ -47,12 +48,12 @@ func (o linkOption) RenderAfter(_ int, attrs map[string]interface{}) string {
 	return "</a>"
 }
 
-type VariableOption struct{}
+type variableOption struct{}
 
-func (o VariableOption) RenderBefore(_ int, attrs map[string]interface{}) string {
+func (o variableOption) RenderBefore(_ int, attrs map[string]interface{}) string {
 	return fmt.Sprintf("{%s}", attrs["value"])
 }
-func (o VariableOption) RenderAfter(_ int, attrs map[string]interface{}) string {
+func (o variableOption) RenderAfter(_ int, attrs map[string]interface{}) string {
 	return ""
 }
 

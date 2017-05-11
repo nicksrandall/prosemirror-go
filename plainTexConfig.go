@@ -2,6 +2,7 @@ package prosemirror
 
 import "fmt"
 
+// NewPlaintextConfig creates a config configured to render plain text
 func NewPlainTextConfig() *Config {
 	nodeRenderers := map[string]Option{
 		"paragraph":       SimpleOption{After: "\n"},
@@ -10,7 +11,7 @@ func NewPlainTextConfig() *Config {
 		"heading":         SimpleOption{After: "\n"},
 		"hard_break":      SimpleOption{Before: "\n"},
 		"list_item":       plainListItemOption{},
-		"variable":        VariableOption{},
+		"variable":        variableOption{},
 	}
 
 	markRenderers := map[string]Option{

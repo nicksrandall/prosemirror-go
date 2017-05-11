@@ -1,24 +1,27 @@
 package prosemirror
 
+// Option configures what to render before and after a specific content type
 type Option interface {
 	RenderBefore(int, map[string]interface{}) string
 	RenderAfter(int, map[string]interface{}) string
 }
 
+// Config is passed to the render function and configures how to render the various content types
 type Config struct {
 	NodeRenderers map[string]Option
 	MarkRenderers map[string]Option
 }
 
+// ListTypeKey is used to get the list type off of the attrs when rendering a list
 const ListTypeKey = "__LIST_TYPE__"
 
-func (c *Config) GetNodeBefore(i int, content *Content) string {
+func (c *Config) getNodeBefore(i int, content *Content) string {
 	if r, ok := c.NodeRenderers[content.Type]; ok {
 		return r.RenderBefore(i, content.Attrs)
 	}
 	return ""
 }
-func (c *Config) GetListNodeBefore(i int, content *Content, listType string) string {
+func (c *Config) getListNodeBefore(i int, content *Content, listType string) string {
 	if r, ok := c.NodeRenderers[content.Type]; ok {
 		if content.Attrs == nil {
 			content.Attrs = make(map[string]interface{})
@@ -28,13 +31,13 @@ func (c *Config) GetListNodeBefore(i int, content *Content, listType string) str
 	}
 	return ""
 }
-func (c *Config) GetNodeAfter(i int, content *Content) string {
+func (c *Config) getNodeAfter(i int, content *Content) string {
 	if r, ok := c.NodeRenderers[content.Type]; ok {
 		return r.RenderAfter(i, content.Attrs)
 	}
 	return ""
 }
-func (c *Config) GetListNodeAfter(i int, content *Content, listType string) string {
+func (c *Config) getListNodeAfter(i int, content *Content, listType string) string {
 	if r, ok := c.NodeRenderers[content.Type]; ok {
 		if content.Attrs == nil {
 			content.Attrs = make(map[string]interface{})
@@ -44,28 +47,31 @@ func (c *Config) GetListNodeAfter(i int, content *Content, listType string) stri
 	}
 	return ""
 }
-func (c *Config) GetMarkBefore(i int, mark *Mark) string {
+func (c *Config) getMarkBefore(i int, mark *Mark) string {
 	if r, ok := c.MarkRenderers[mark.Type]; ok {
 		return r.RenderBefore(i, mark.Attrs)
 	}
 	return ""
 }
-func (c *Config) GetMarkAfter(i int, mark *Mark) string {
+func (c *Config) getMarkAfter(i int, mark *Mark) string {
 	if r, ok := c.MarkRenderers[mark.Type]; ok {
 		return r.RenderAfter(i, mark.Attrs)
 	}
 	return ""
 }
 
+// SimpleOption implements Option. Can be used when Before/After strings are constant.
 type SimpleOption struct {
 	Before string
 	After  string
 }
 
+// RenderBefore returns the Before string
 func (o SimpleOption) RenderBefore(_ int, _ map[string]interface{}) string {
 	return o.Before
 }
 
+// RenderBefore returns the After string
 func (o SimpleOption) RenderAfter(_ int, _ map[string]interface{}) string {
 	return o.After
 }
