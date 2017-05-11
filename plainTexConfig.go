@@ -10,6 +10,7 @@ func NewPlainTextConfig() *Config {
 		"heading":         SimpleOption{After: "\n"},
 		"hard_break":      SimpleOption{Before: "\n"},
 		"list_item":       plainListItemOption{},
+		"variable":        VariableOption{},
 	}
 
 	markRenderers := map[string]Option{

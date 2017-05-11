@@ -15,6 +15,7 @@ func NewHTMLConfig() *Config {
 		"ordered_list":    SimpleOption{Before: "<ol>", After: "</ol>"},
 		"bullet_list":     SimpleOption{Before: "<ul>", After: "</ul>"},
 		"list_item":       SimpleOption{Before: "<li>", After: "</li>"},
+		"variable":        VariableOption{},
 	}
 
 	markRenderers := map[string]Option{
@@ -44,6 +45,15 @@ func (o linkOption) RenderBefore(_ int, attrs map[string]interface{}) string {
 }
 func (o linkOption) RenderAfter(_ int, attrs map[string]interface{}) string {
 	return "</a>"
+}
+
+type VariableOption struct{}
+
+func (o VariableOption) RenderBefore(_ int, attrs map[string]interface{}) string {
+	return fmt.Sprintf("{%s}", attrs["value"])
+}
+func (o VariableOption) RenderAfter(_ int, attrs map[string]interface{}) string {
+	return ""
 }
 
 // Compile type check

@@ -13,6 +13,7 @@ func NewMarkdownConfig() *Config {
 		"bullet_list":     SimpleOption{After: "\n"},
 		"list_item":       plainListItemOption{},
 		"code_block":      SimpleOption{Before: "```\n", After: "```\n"},
+		"variable":        VariableOption{},
 	}
 
 	markRenderers := map[string]Option{
