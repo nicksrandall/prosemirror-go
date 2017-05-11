@@ -1,6 +1,7 @@
 # prosemirror-go
 [![GoDoc](https://godoc.org/github.com/nicksrandall/prosemirror-go?status.svg)](https://godoc.org/github.com/nicksrandall/prosemirror-go)
 [![Build Status](https://travis-ci.org/nicksrandall/prosemirror-go.svg?branch=master)](https://travis-ci.org/nicksrandall/prosemirror-go)
+
 This will export ProseMirror content state to HTML, Plain Text, or Markdown
 
 ## Usage
